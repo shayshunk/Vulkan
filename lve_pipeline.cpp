@@ -4,14 +4,17 @@
 #include <fstream>
 #include <iostream>
 #include <stdexcept>
-
 namespace lve
 {
 
-LvePipeline::LvePipeline(std::string const& vertFilepath, std::string const& fragFilepath)
+LvePipeline::LvePipeline(LveDevice& device,
+                         std::string const& vertFilepath,
+                         std::string const& fragFilepath,
+                         PipelineConfigInfo const& configInfo)
+    : lveDevice{device}
 {
     // Instantiating
-    CreateGraphicsPipeline(vertFilepath, fragFilepath);
+    CreateGraphicsPipeline(vertFilepath, fragFilepath, configInfo);
 }
 
 std::vector<char> LvePipeline::ReadFile(std::string const& filepath)
@@ -40,7 +43,9 @@ std::vector<char> LvePipeline::ReadFile(std::string const& filepath)
     return buffer;
 }
 
-void LvePipeline::CreateGraphicsPipeline(std::string const& vertFilepath, std::string const& fragFilepath)
+void LvePipeline::CreateGraphicsPipeline(std::string const& vertFilepath,
+                                         std::string const& fragFilepath,
+                                         PipelineConfigInfo const& configInfo)
 {
     // Grabbing shader files
     auto vertCode = ReadFile(vertFilepath);
@@ -49,6 +54,27 @@ void LvePipeline::CreateGraphicsPipeline(std::string const& vertFilepath, std::s
     // Outputting shader file size for confirmation
     std::cout << "Vertex Shader code size: " << vertCode.size() << '\n';
     std::cout << "Fragment Shader code size: " << fragCode.size() << '\n';
+}
+
+void LvePipeline::CreateShaderModule(std::vector<char> const& code, VkShaderModule* shaderModule)
+{
+    VkShaderModuleCreateInfo createInfo{};
+
+    createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
+    createInfo.codeSize = code.size();
+    createInfo.pCode = reinterpret_cast<uint32_t const*>(code.data());
+
+    if (vkCreateShaderModule(lveDevice.device(), &createInfo, nullptr, shaderModule) != VK_SUCCESS)
+    {
+        throw std::runtime_error("Failed to create shader module!");
+    }
+}
+
+PipelineConfigInfo LvePipeline::defaultPipelineConfigInfo(uint32_t width, uint32_t height)
+{
+    PipelineConfigInfo configInfo{};
+
+    return configInfo;
 }
 
 }  // namespace lve
