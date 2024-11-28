@@ -12,5 +12,6 @@ Vulkan: *.cpp *.h
 test: Vulkan
 	./Vulkan
 
-clean:
-	rm -f Vulkan
+clean: rm Vulkan
+	Vulkan
+	./Vulkan

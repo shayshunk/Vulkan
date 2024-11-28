@@ -112,7 +112,7 @@ void LveDevice::createInstance()
 
     if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
     {
-        throw std::runtime_error("failed to create instance!");
+        throw std::runtime_error("Failed to create instance!");
     }
 
     hasGflwRequiredInstanceExtensions();
@@ -124,7 +124,7 @@ void LveDevice::pickPhysicalDevice()
     vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
     if (deviceCount == 0)
     {
-        throw std::runtime_error("failed to find GPUs with Vulkan support!");
+        throw std::runtime_error("Failed to find GPUs with Vulkan support!");
     }
     std::cout << "Device count: " << deviceCount << std::endl;
     std::vector<VkPhysicalDevice> devices(deviceCount);
@@ -145,7 +145,7 @@ void LveDevice::pickPhysicalDevice()
     }
 
     vkGetPhysicalDeviceProperties(physicalDevice, &properties);
-    std::cout << "physical device: " << properties.deviceName << std::endl;
+    std::cout << "Physical device: " << properties.deviceName << std::endl;
 }
 
 void LveDevice::createLogicalDevice()

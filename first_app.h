@@ -1,25 +1,46 @@
 #pragma once
 
+// Custom includes
 #include "lve_device.h"
 #include "lve_pipeline.h"
+#include "lve_swap_chain.h"
 #include "lve_window.h"
+
+// C++ includes
+#include <memory>
+#include <vector>
 
 namespace lve
 {
 class FirstApp
 {
   public:
+    // Window size
     static constexpr int WIDTH = 1600;
     static constexpr int HEIGHT = 900;
 
-    void run();
+    FirstApp();
+    ~FirstApp();
+
+    FirstApp(FirstApp const&) = delete;
+    FirstApp& operator=(FirstApp const&) = delete;
+
+    void Run();
 
   private:
+    // Functions
+    void CreatePipelineLayout();
+    void CreatePipeline();
+    void CreateCommandBuffers() {};
+    void DrawFrame() {};
+
     LveWindow lveWindow{WIDTH, HEIGHT, "Hello Vulkan!"};
     LveDevice lveDevice{lveWindow};
-    LvePipeline lvePipeline{lveDevice,
-                            "shaders/simple_shader.vert.spv",
-                            "shaders/simple_shader.frag.spv",
-                            LvePipeline::defaultPipelineConfigInfo(WIDTH, HEIGHT)};
+    LveSwapChain lveSwapChain{lveDevice, lveWindow.GetExtent()};
+
+    // Smart pointer for the pipeline
+    std::unique_ptr<LvePipeline> lvePipeline;
+    VkPipelineLayout pipelineLayout;
+    std::vector<VkCommandBuffer> commandBuffers;
 };
 }  // namespace lve

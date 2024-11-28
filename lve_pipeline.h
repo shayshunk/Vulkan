@@ -4,6 +4,7 @@
 #include "lve_device.h"
 
 // C++ includes
+#include <cassert>
 #include <string>
 #include <vector>
 
@@ -12,6 +13,19 @@ namespace lve
 
 struct PipelineConfigInfo
 {
+    VkViewport viewport;
+    VkRect2D scissor;
+    VkPipelineInputAssemblyStateCreateInfo inputAssemblyInfo;
+    VkPipelineRasterizationStateCreateInfo rasterizationInfo;
+    VkPipelineMultisampleStateCreateInfo multisampleInfo;
+    VkPipelineColorBlendAttachmentState colorBlendAttachment;
+    VkPipelineColorBlendStateCreateInfo colorBlendInfo;
+    VkPipelineDepthStencilStateCreateInfo depthStencilInfo;
+
+    VkPipelineLayout pipelineLayout = nullptr;
+    VkRenderPass renderPass = nullptr;
+
+    uint32_t subpass = 0;
 };
 
 class LvePipeline
@@ -22,7 +36,7 @@ class LvePipeline
                 std::string const& fragFilepath,
                 PipelineConfigInfo const& configInfo);
 
-    ~LvePipeline() {};
+    ~LvePipeline();
 
     LvePipeline(LvePipeline const&) = delete;
     void operator=(LvePipeline const&) = delete;
