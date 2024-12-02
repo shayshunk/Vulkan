@@ -9,8 +9,11 @@ fragSources = $(shell find ./shaders -type f -name "*.frag")
 fragObjFiles = $(patsubst %.frag, %.frag.spv, $(fragSources))
 
 # Compiling
-Vulkan: *.cpp *.h
+Vulkan: *.cpp *.h $(vertObjFiles) $(fragObjFiles)
 	g++ $(CFLAGS) -o Vulkan *.cpp $(LDFLAGS)
+
+%.spv: %
+	glslc $< -o $@
 
 # Rules
 .PHONY: test clean
