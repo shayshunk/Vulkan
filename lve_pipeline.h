@@ -41,7 +41,8 @@ class LvePipeline
     LvePipeline(LvePipeline const&) = delete;
     void operator=(LvePipeline const&) = delete;
 
-    static PipelineConfigInfo defaultPipelineConfigInfo(uint32_t width, uint32_t height);
+    void Bind(VkCommandBuffer commandBuffer);
+    static PipelineConfigInfo DefaultPipelineConfigInfo(uint32_t width, uint32_t height);
 
   private:
     static std::vector<char> ReadFile(std::string const& filepath);

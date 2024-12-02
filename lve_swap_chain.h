@@ -23,20 +23,20 @@ class LveSwapChain
     LveSwapChain(LveSwapChain const&) = delete;
     void operator=(LveSwapChain const&) = delete;
 
-    VkFramebuffer getFrameBuffer(int index) { return swapChainFramebuffers[index]; }
-    VkRenderPass getRenderPass() { return renderPass; }
+    VkFramebuffer GetFrameBuffer(int index) { return swapChainFramebuffers[index]; }
+    VkRenderPass GetRenderPass() { return renderPass; }
     VkImageView getImageView(int index) { return swapChainImageViews[index]; }
-    size_t imageCount() { return swapChainImages.size(); }
-    VkFormat getSwapChainImageFormat() { return swapChainImageFormat; }
-    VkExtent2D getSwapChainExtent() { return swapChainExtent; }
+    size_t ImageCount() { return swapChainImages.size(); }
+    VkFormat GetSwapChainImageFormat() { return swapChainImageFormat; }
+    VkExtent2D GetSwapChainExtent() { return swapChainExtent; }
     uint32_t width() { return swapChainExtent.width; }
     uint32_t height() { return swapChainExtent.height; }
 
     float extentAspectRatio() { return static_cast<float>(swapChainExtent.width) / static_cast<float>(swapChainExtent.height); }
     VkFormat findDepthFormat();
 
-    VkResult acquireNextImage(uint32_t* imageIndex);
-    VkResult submitCommandBuffers(VkCommandBuffer const* buffers, uint32_t* imageIndex);
+    VkResult AcquireNextImage(uint32_t* imageIndex);
+    VkResult SubmitCommandBuffers(VkCommandBuffer const* buffers, uint32_t* imageIndex);
 
   private:
     void CreateSwapChain();

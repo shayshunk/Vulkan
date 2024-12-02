@@ -31,8 +31,8 @@ class FirstApp
     // Functions
     void CreatePipelineLayout();
     void CreatePipeline();
-    void CreateCommandBuffers() {};
-    void DrawFrame() {};
+    void CreateCommandBuffers();
+    void DrawFrame();
 
     LveWindow lveWindow{WIDTH, HEIGHT, "Hello Vulkan!"};
     LveDevice lveDevice{lveWindow};

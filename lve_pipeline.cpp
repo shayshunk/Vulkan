@@ -143,7 +143,12 @@ void LvePipeline::CreateShaderModule(std::vector<char> const& code, VkShaderModu
     }
 }
 
-PipelineConfigInfo LvePipeline::defaultPipelineConfigInfo(uint32_t width, uint32_t height)
+void LvePipeline::Bind(VkCommandBuffer commandBuffer)
+{
+    vkCmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+}
+
+PipelineConfigInfo LvePipeline::DefaultPipelineConfigInfo(uint32_t width, uint32_t height)
 {
     PipelineConfigInfo configInfo{};
 

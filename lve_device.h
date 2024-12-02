@@ -43,13 +43,13 @@ class LveDevice
     LveDevice(LveDevice&&) = delete;
     LveDevice& operator=(LveDevice&&) = delete;
 
-    VkCommandPool getCommandPool() { return commandPool; }
+    VkCommandPool GetCommandPool() { return commandPool; }
     VkDevice device() { return device_; }
     VkSurfaceKHR surface() { return surface_; }
     VkQueue graphicsQueue() { return graphicsQueue_; }
     VkQueue presentQueue() { return presentQueue_; }
 
-    SwapChainSupportDetails getSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
+    SwapChainSupportDetails GetSwapChainSupport() { return querySwapChainSupport(physicalDevice); }
     uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
     QueueFamilyIndices findPhysicalQueueFamilies() { return findQueueFamilies(physicalDevice); }
     VkFormat findSupportedFormat(std::vector<VkFormat> const& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);

@@ -59,7 +59,7 @@ LveSwapChain::~LveSwapChain()
     }
 }
 
-VkResult LveSwapChain::acquireNextImage(uint32_t* imageIndex)
+VkResult LveSwapChain::AcquireNextImage(uint32_t* imageIndex)
 {
     vkWaitForFences(device.device(), 1, &inFlightFences[currentFrame], VK_TRUE, std::numeric_limits<uint64_t>::max());
 
@@ -73,7 +73,7 @@ VkResult LveSwapChain::acquireNextImage(uint32_t* imageIndex)
     return result;
 }
 
-VkResult LveSwapChain::submitCommandBuffers(VkCommandBuffer const* buffers, uint32_t* imageIndex)
+VkResult LveSwapChain::SubmitCommandBuffers(VkCommandBuffer const* buffers, uint32_t* imageIndex)
 {
     if (imagesInFlight[*imageIndex] != VK_NULL_HANDLE)
     {
@@ -124,7 +124,7 @@ VkResult LveSwapChain::submitCommandBuffers(VkCommandBuffer const* buffers, uint
 
 void LveSwapChain::CreateSwapChain()
 {
-    SwapChainSupportDetails swapChainSupport = device.getSwapChainSupport();
+    SwapChainSupportDetails swapChainSupport = device.GetSwapChainSupport();
 
     VkSurfaceFormatKHR surfaceFormat = ChooseSwapSurfaceFormat(swapChainSupport.formats);
     VkPresentModeKHR presentMode = ChooseSwapPresentMode(swapChainSupport.presentModes);
@@ -228,7 +228,7 @@ void LveSwapChain::CreateRenderPass()
     depthAttachmentRef.layout = VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL;
 
     VkAttachmentDescription colorAttachment = {};
-    colorAttachment.format = getSwapChainImageFormat();
+    colorAttachment.format = GetSwapChainImageFormat();
     colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
     colorAttachment.loadOp = VK_ATTACHMENT_LOAD_OP_CLEAR;
     colorAttachment.storeOp = VK_ATTACHMENT_STORE_OP_STORE;
@@ -273,12 +273,12 @@ void LveSwapChain::CreateRenderPass()
 
 void LveSwapChain::CreateFramebuffers()
 {
-    swapChainFramebuffers.resize(imageCount());
-    for (size_t i = 0; i < imageCount(); i++)
+    swapChainFramebuffers.resize(ImageCount());
+    for (size_t i = 0; i < ImageCount(); i++)
     {
         std::array<VkImageView, 2> attachments = {swapChainImageViews[i], depthImageViews[i]};
 
-        VkExtent2D swapChainExtent = getSwapChainExtent();
+        VkExtent2D swapChainExtent = GetSwapChainExtent();
         VkFramebufferCreateInfo framebufferInfo = {};
         framebufferInfo.sType = VK_STRUCTURE_TYPE_FRAMEBUFFER_CREATE_INFO;
         framebufferInfo.renderPass = renderPass;
@@ -298,11 +298,11 @@ void LveSwapChain::CreateFramebuffers()
 void LveSwapChain::CreateDepthResources()
 {
     VkFormat depthFormat = findDepthFormat();
-    VkExtent2D swapChainExtent = getSwapChainExtent();
+    VkExtent2D swapChainExtent = GetSwapChainExtent();
 
-    depthImages.resize(imageCount());
-    depthImageMemorys.resize(imageCount());
-    depthImageViews.resize(imageCount());
+    depthImages.resize(ImageCount());
+    depthImageMemorys.resize(ImageCount());
+    depthImageViews.resize(ImageCount());
 
     for (int i = 0; i < depthImages.size(); i++)
     {
@@ -347,7 +347,7 @@ void LveSwapChain::CreateSyncObjects()
     imageAvailableSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
     renderFinishedSemaphores.resize(MAX_FRAMES_IN_FLIGHT);
     inFlightFences.resize(MAX_FRAMES_IN_FLIGHT);
-    imagesInFlight.resize(imageCount(), VK_NULL_HANDLE);
+    imagesInFlight.resize(ImageCount(), VK_NULL_HANDLE);
 
     VkSemaphoreCreateInfo semaphoreInfo = {};
     semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
