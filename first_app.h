@@ -2,6 +2,7 @@
 
 // Custom includes
 #include "lve_device.h"
+#include "lve_model.h"
 #include "lve_pipeline.h"
 #include "lve_swap_chain.h"
 #include "lve_window.h"
@@ -29,6 +30,7 @@ class FirstApp
 
   private:
     // Functions
+    void LoadModels();
     void CreatePipelineLayout();
     void CreatePipeline();
     void CreateCommandBuffers();
@@ -42,5 +44,7 @@ class FirstApp
     std::unique_ptr<LvePipeline> lvePipeline;
     VkPipelineLayout pipelineLayout;
     std::vector<VkCommandBuffer> commandBuffers;
+
+    std::unique_ptr<LveModel> lveModel;
 };
 }  // namespace lve
