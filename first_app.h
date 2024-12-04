@@ -17,7 +17,7 @@ class FirstApp
 {
   public:
     // Window size
-    static constexpr int WIDTH = 1600;
+    static constexpr int WIDTH = 1200;
     static constexpr int HEIGHT = 900;
 
     FirstApp();
