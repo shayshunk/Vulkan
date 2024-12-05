@@ -3,6 +3,8 @@
 
 // C++ headers
 #include <array>
+#include <cmath>
+#include <iostream>
 #include <stdexcept>
 
 namespace lve
@@ -34,9 +36,37 @@ void FirstApp::Run()
 
 void FirstApp::LoadModels()
 {
-    std::vector<LveModel::Vertex> vertices{{{0.0f, -0.5f}}, {{0.5f, 0.5f}}, {{-0.5f, 0.5f}}};
+    auto vertices = SierpinskiTriangle(2);
 
     lveModel = std::make_unique<LveModel>(lveDevice, vertices);
+}
+
+std::vector<LveModel::Vertex> FirstApp::SierpinskiTriangle(int depth)
+{
+    std::vector<LveModel::Vertex> vertices;
+
+    int triangleCount = pow(3, depth - 1);
+
+    float xOffset = -0.8, yOffset = 0.6;
+    float xSize = 1.6, ySize = 1.2;
+
+    float xAdder = 0.5 * xSize / pow(2, depth - 1);
+    float yAdder = -ySize / pow(2, depth - 1);
+
+    for (int i = 0; i < triangleCount; i++)
+    {
+        std::vector<LveModel::Vertex> triangle{
+            {{xOffset, yOffset}}, {{xOffset + 2 * xAdder, yOffset}}, {{xOffset + xAdder, yOffset + yAdder}}};
+
+        std::cout << xOffset << " " << yOffset << " " << xAdder << " " << yAdder + yOffset << '\n';
+
+        xOffset += xAdder;
+        yOffset += yAdder;
+
+        vertices.insert(vertices.end(), triangle.begin(), triangle.end());
+    }
+
+    return vertices;
 }
 
 void FirstApp::CreatePipelineLayout()

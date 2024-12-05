@@ -18,7 +18,7 @@ class FirstApp
   public:
     // Window size
     static constexpr int WIDTH = 1200;
-    static constexpr int HEIGHT = 900;
+    static constexpr int HEIGHT = 1200;
 
     FirstApp();
     ~FirstApp();
@@ -31,6 +31,7 @@ class FirstApp
   private:
     // Functions
     void LoadModels();
+    std::vector<LveModel::Vertex> SierpinskiTriangle(int depth);
     void CreatePipelineLayout();
     void CreatePipeline();
     void CreateCommandBuffers();
