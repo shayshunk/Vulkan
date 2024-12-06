@@ -43,9 +43,16 @@ void FirstApp::LoadModels()
 
 std::vector<LveModel::Vertex> FirstApp::SierpinskiTriangle(int depth)
 {
+    if (depth == 1)
+    {
+        std::vector<LveModel::Vertex> triangle{{{-0.8f, 0.6f}}, {{0.8f, 0.6f}}, {{0.0f, -0.6f}}};
+        return triangle;
+    }
+
     std::vector<LveModel::Vertex> vertices;
 
-    int triangleCount = pow(3, depth - 1);
+    int triangleCount = pow(3, depth - 2);
+    std::cout << "Triangle count: " << triangleCount << '\n';
 
     float xOffset = -0.8, yOffset = 0.6;
     float xSize = 1.6, ySize = 1.2;
@@ -53,15 +60,55 @@ std::vector<LveModel::Vertex> FirstApp::SierpinskiTriangle(int depth)
     float xAdder = 0.5 * xSize / pow(2, depth - 1);
     float yAdder = -ySize / pow(2, depth - 1);
 
+    std::vector<glm::vec2> bounds = {{xOffset, yOffset}, {xOffset + xSize, yOffset - ySize}};
+
     for (int i = 0; i < triangleCount; i++)
+    {
+        std::cout << "Starting!\n";
+        auto triangle = SplitTriangle(depth - 1, bounds);
+
+        vertices.insert(vertices.end(), triangle.begin(), triangle.end());
+    }
+
+    return vertices;
+}
+
+std::vector<LveModel::Vertex> FirstApp::SplitTriangle(int depth, std::vector<glm::vec2> bounds)
+{
+    std::vector<LveModel::Vertex> vertices;
+
+    float xOffset = bounds[0].x, yOffset = bounds[0].y;
+    float xSize = bounds[1].x - xOffset, ySize = bounds[1].y - yOffset;
+
+    std::cout << "x offset: " << xOffset << '\n';
+    std::cout << "y offset: " << yOffset << '\n';
+    std::cout << "x size: " << xSize << '\n';
+    std::cout << "y size: " << ySize << '\n';
+
+    float xAdder = 0.5 * xSize / 2;
+    float yAdder = ySize / 2;
+
+    std::cout << "x adder: " << xAdder << '\n';
+    std::cout << "y adder: " << yAdder << '\n';
+
+    for (int i = 0; i < 3; i++)
     {
         std::vector<LveModel::Vertex> triangle{
             {{xOffset, yOffset}}, {{xOffset + 2 * xAdder, yOffset}}, {{xOffset + xAdder, yOffset + yAdder}}};
 
-        std::cout << xOffset << " " << yOffset << " " << xAdder << " " << yAdder + yOffset << '\n';
+        std::cout << xOffset << " " << yOffset << " " << xOffset + 2 * xAdder << " " << yOffset << " " << xOffset + xAdder << " "
+                  << yOffset + yAdder << '\n';
 
-        xOffset += xAdder;
-        yOffset += yAdder;
+        if (i != 1)
+        {
+            xOffset += xAdder;
+            yOffset += yAdder;
+        }
+        else
+        {
+            xOffset += xAdder;
+            yOffset += -yAdder;
+        }
 
         vertices.insert(vertices.end(), triangle.begin(), triangle.end());
     }

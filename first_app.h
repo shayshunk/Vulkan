@@ -32,6 +32,7 @@ class FirstApp
     // Functions
     void LoadModels();
     std::vector<LveModel::Vertex> SierpinskiTriangle(int depth);
+    std::vector<LveModel::Vertex> SplitTriangle(int depth, std::vector<glm::vec2> bounds);
     void CreatePipelineLayout();
     void CreatePipeline();
     void CreateCommandBuffers();
