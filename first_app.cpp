@@ -36,7 +36,7 @@ void FirstApp::Run()
 
 void FirstApp::LoadModels()
 {
-    auto vertices = SierpinskiTriangle(5);
+    auto vertices = SierpinskiTriangle(6);
 
     lveModel = std::make_unique<LveModel>(lveDevice, vertices);
 }
