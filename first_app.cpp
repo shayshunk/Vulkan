@@ -36,7 +36,7 @@ void FirstApp::Run()
 
 void FirstApp::LoadModels()
 {
-    auto vertices = SierpinskiTriangle(6);
+    auto vertices = SierpinskiTriangle(2);
 
     lveModel = std::make_unique<LveModel>(lveDevice, vertices);
 }
@@ -82,8 +82,9 @@ std::vector<LveModel::Vertex> FirstApp::SplitTriangle(int depth, std::vector<Lve
 
     for (int i = 0; i < 3; i++)
     {
-        std::vector<LveModel::Vertex> triangle{
-            {{xOffset, yOffset}}, {{xOffset + 2 * xAdder, yOffset}}, {{xOffset + xAdder, yOffset + yAdder}}};
+        std::vector<LveModel::Vertex> triangle{{{xOffset, yOffset}, {1.0f, 0.0f, 0.0f}},
+                                               {{xOffset + 2 * xAdder, yOffset}, {0.0f, 1.0f, 0.0f}},
+                                               {{xOffset + xAdder, yOffset + yAdder}, {0.0f, 0.0f, 1.0f}}};
 
         if (i != 1)
         {
